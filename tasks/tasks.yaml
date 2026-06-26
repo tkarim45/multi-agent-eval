@@ -1,0 +1,33 @@
+# Composite questions with a set of gold "key points" the answer must cover. Quality =
+# fraction of key points present. Some tasks decompose cleanly (multi-agent should help),
+# others are simple (decomposition adds overhead without quality) — to expose the trade-off.
+tasks:
+  - id: market_entry
+    type: decomposable
+    question: "Should a SaaS startup expand to the EU? Cover regulation, localization, and pricing."
+    key_points: ["GDPR compliance", "data residency", "language localization", "VAT and pricing", "local competition", "support time zones"]
+
+  - id: incident_postmortem
+    type: decomposable
+    question: "Write a postmortem outline for a database outage: causes, impact, and prevention."
+    key_points: ["root cause", "timeline", "customer impact", "monitoring gap", "remediation", "action items"]
+
+  - id: hiring_plan
+    type: decomposable
+    question: "Plan a 6-month ML hiring roadmap: roles, sequencing, and budget."
+    key_points: ["senior ML engineer first", "MLOps role", "data engineer", "budget per hire", "interview loop", "onboarding ramp"]
+
+  - id: capital_of_france
+    type: simple
+    question: "What is the capital of France and one notable landmark?"
+    key_points: ["Paris", "Eiffel Tower"]
+
+  - id: define_overfitting
+    type: simple
+    question: "Define overfitting and one way to prevent it."
+    key_points: ["fits training noise", "poor generalization", "regularization or more data"]
+
+  - id: rest_vs_graphql
+    type: simple
+    question: "Give one advantage of REST and one of GraphQL."
+    key_points: ["REST simplicity/caching", "GraphQL single request / no over-fetching"]
