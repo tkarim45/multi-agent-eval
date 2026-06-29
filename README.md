@@ -36,6 +36,8 @@ simple tasks       — single 0.444 vs multi 0.444
 multi-agent: +13.9 quality pts for 2.8× cost and 2.8× latency.
 ```
 
+> *These numbers come from a **calibrated key-free mock** scored by a **lexical key-point overlap** metric — not live API runs or a semantic judge; `--live` runs the real pipeline to validate the pattern.*
+
 Read the split, not the average: on **decomposable** tasks multi-agent jumps **0.556 → 0.833**
 (+28 pts); on **simple** tasks it's **0.444 → 0.444** — *zero gain* for **2.8× the cost and
 latency**. The orchestration earns its keep only when the task genuinely decomposes.
