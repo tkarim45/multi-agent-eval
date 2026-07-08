@@ -66,12 +66,28 @@ class MockMultiAgent:
 
 
 # -----------------------------------------------------------------------------
+def _use_bedrock() -> bool:
+    if os.getenv("MAEVAL_PROVIDER", "").lower() == "bedrock":
+        return True
+    if os.getenv("MAEVAL_PROVIDER", "").lower() == "anthropic":
+        return False
+    # auto: prefer Bedrock when AWS creds are present but no direct key
+    return bool(os.getenv("AWS_ACCESS_KEY_ID") or os.getenv("AWS_PROFILE")) and not os.getenv("ANTHROPIC_API_KEY")
+
+
 class _Claude:
     def __init__(self, model):
-        import anthropic
+        if _use_bedrock():
+            from anthropic import AnthropicBedrock
 
-        self.client = anthropic.Anthropic()
-        self.model = model
+            self.client = AnthropicBedrock(aws_region=os.getenv("AWS_REGION", "us-east-1"))
+            self.model = os.getenv("MAEVAL_BEDROCK_MODEL",
+                                   "global.anthropic.claude-haiku-4-5-20251001-v1:0")
+        else:
+            import anthropic
+
+            self.client = anthropic.Anthropic()
+            self.model = model
 
     def call(self, prompt: str, system: str = "", max_tokens: int = 700):
         import time
@@ -128,6 +144,12 @@ class ClaudeMultiAgent:
 
 
 def get_agents(model):
-    if os.getenv("ANTHROPIC_API_KEY"):
+    """Real Claude agents when any credential is available (direct API or AWS Bedrock), else the
+    calibrated mock. Force with MAEVAL_PROVIDER=bedrock|anthropic|mock."""
+    forced = os.getenv("MAEVAL_PROVIDER", "").lower()
+    if forced == "mock":
+        return MockSingleAgent(), MockMultiAgent()
+    have_creds = os.getenv("ANTHROPIC_API_KEY") or os.getenv("AWS_ACCESS_KEY_ID") or os.getenv("AWS_PROFILE")
+    if forced in ("bedrock", "anthropic") or have_creds:
         return ClaudeSingleAgent(model), ClaudeMultiAgent(model)
     return MockSingleAgent(), MockMultiAgent()
