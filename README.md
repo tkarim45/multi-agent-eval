@@ -73,7 +73,7 @@ $PY -m pip install -e ".[all]"
 
 maeval                          # offline trade-off benchmark (mock agents)
 
-# real planner/workers/critic vs single agent on Claude — two credential paths:
+# real planner/workers/critic vs single agent on Claude, two credential paths:
 MAEVAL_PROVIDER=bedrock maeval --live      # Claude Haiku on AWS Bedrock (creds from env / ~/.env)
 export ANTHROPIC_API_KEY=sk-ant-... ; maeval --live   # or the direct Anthropic API
 ```
