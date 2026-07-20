@@ -1,12 +1,12 @@
-# 💬 Multi-Agent Eval — does multi-agent actually beat single-agent?
+# 💬 Multi-Agent Eval: does multi-agent actually beat single-agent?
 
 > Multi-agent orchestration is the most over-hyped, under-measured space in applied AI. This
 > runs a **planner→workers→critic** multi-agent system and a **single-agent baseline** over
 > the same tasks and quantifies the trade-off: **answer quality, token cost, latency, and
-> call count**. The senior insight isn't "I used multiple agents" — it's *proving when the
+> call count**. The senior insight isn't "I used multiple agents", it's *proving when the
 > coordination overhead is (and isn't) worth it*. Runs offline (calibrated mock); `--live` for Claude.
 
-Spinning up five agents feels sophisticated. But each adds calls, tokens, and latency — and
+Spinning up five agents feels sophisticated. But each adds calls, tokens, and latency, and
 on many tasks the quality gain is marginal or zero. This measures the gain against the cost,
 split by whether the task actually decomposes.
 
@@ -23,7 +23,7 @@ split by whether the task actually decomposes.
 
 ## Measured (`maeval`)
 
-Real run — **Claude Haiku 4.5 on AWS Bedrock**, 12 tasks (`MAEVAL_PROVIDER=bedrock maeval --live`):
+Real run, **Claude Haiku 4.5 on AWS Bedrock**, 12 tasks (`MAEVAL_PROVIDER=bedrock maeval --live`):
 
 ```
 system    quality      cost$  latency_ms  calls
@@ -37,22 +37,22 @@ simple tasks       — single 0.722 vs multi 1.000
 multi-agent: +5.5 quality pts for 4.3× cost and 2.1× latency.
 ```
 
-The real run **did not reproduce the tidy story** — and that's the honest, more interesting result:
+The real run **did not reproduce the tidy story**, and that's the honest, more interesting result:
 
 - **Multi-agent bought little for a lot.** On real Claude Haiku the planner→workers→critic system
   scored just **+5.5 quality points over a single agent, for 4.3× the cost and 2.1× the latency**.
   The overhead is real and large; the quality edge is small.
-- **The clean "wins on decomposable, zero on simple" split evaporated — it even inverted.** The
+- **The clean "wins on decomposable, zero on simple" split evaporated, it even inverted.** The
   calibrated mock showed multi-agent jumping +28 points on decomposable tasks and nothing on simple
   ones. The live model showed the *opposite* per-subset pattern: single **beat** multi on the
   decomposable tasks (0.833 vs 0.667) and lost on the simple ones (0.722 vs 1.000). With only ~6
-  tasks per subset and a crude lexical-overlap quality metric, that inversion is within noise — which
+  tasks per subset and a crude lexical-overlap quality metric, that inversion is within noise, which
   is precisely the point: the mock's neat narrative was a *designed* artifact, and the real signal is
   noisier and does not support "multi-agent reliably wins where the task decomposes."
 - **The robust, hireable takeaway survives the mock's collapse:** multi-agent orchestration is not a
-  free quality lever — it multiplies cost and latency several-fold for a small and, here, unreliable
+  free quality lever, it multiplies cost and latency several-fold for a small and, here, unreliable
   quality change. "Should I add more agents?" is an empirical question you have to measure per
-  task, not a default — and measuring it live is what kept this from shipping the mock's clean-but-
+  task, not a default, and measuring it live is what kept this from shipping the mock's clean-but-
   wrong conclusion.
 
 > The offline `maeval` (mock agents, lexical-overlap scoring) is a **calibrated teaching fixture**
@@ -65,7 +65,7 @@ The real run **did not reproduce the tidy story** — and that's the honest, mor
 
 ## Quickstart
 
-> Uses the conda **`personal`** env (per environment conventions — never `base`).
+> Uses the conda **`personal`** env (per environment conventions, never `base`).
 
 ```bash
 PY=~/miniconda3/envs/personal/bin/python
@@ -113,8 +113,8 @@ multi-agent-eval/
 
 > *Built a multi-agent evaluation harness benchmarking a planner→workers→critic system vs a
 > single-agent baseline on quality (key-point coverage), token cost, latency, and call count;
-> quantified the trade-off — multi-agent's quality gain concentrates on decomposable tasks and
-> vanishes on simple ones at several× the cost — the judgment most "I used CrewAI" projects skip.*
+> quantified the trade-off, multi-agent's quality gain concentrates on decomposable tasks and
+> vanishes on simple ones at several× the cost, the judgment most "I used CrewAI" projects skip.*
 
 ## License
 MIT (`LICENSE`).
