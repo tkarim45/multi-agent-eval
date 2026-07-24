@@ -12,6 +12,13 @@ split by whether the task actually decomposes.
 
 ---
 
+
+## Architecture
+
+![architecture](docs/assets/architecture.png)
+
+*Interactive/exportable version: [`docs/assets/architecture.html`](docs/assets/architecture.html).*
+
 ## The two systems
 
 | System | How it works | Calls |
